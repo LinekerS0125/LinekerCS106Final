@@ -1,0 +1,6 @@
+
+draw = function() {  // draw funciton, when currentScene changes, change to desired screen
+    if (currentScene === 1) {splashScreen();}
+    else if (currentScene === 2) {gameScreen();}  
+    else if (currentScene === 3) {htpScreen();}
+};
