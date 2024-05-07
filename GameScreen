@@ -1,0 +1,202 @@
+var gameScreen = function(){
+    currentScene = 2;   // sets currentScene to 2 so the gameScreen could show 
+    
+var player1X = width / 2; // Adjust the starting position of the paddle 
+
+var ball;
+var gameStarted = false;
+var t = 0;
+
+// Constants
+var PAUSE_TIME = 50; // time waited after pressing "Play Brick Breaker"
+var PLAYER_MOVE_SPEED = 4;  // speed of player (paddle)
+var BALL_SPEED = 6;     // speed of ball
+var PADDLE_HEIGHT = 50; // Adjusted the height of the paddle
+var PADDLE_WIDTH = 100; // Adjusted the width of the paddle
+var BRICK_ROWS = 4;  // set the amount of rows of bricks 
+var BRICK_COLUMNS = 5;// set the amount of rows of bricks
+var BRICK_WIDTH = 90;  // change the width of the bricks 
+var BRICK_HEIGHT = 20; // change the height of the bricks 
+var bricks = [];  // array of bricks to be set when initialized 
+var currentScene;
+var lives = 3;
+
+
+var Ball = function (position, speed) {  // object that contains all information regarding the ball and its actions 
+    this.position = position;
+    this.speed = speed || BALL_SPEED;
+
+    this.radius = 15;   // SIZE of ball 
+
+    this.resetVelocity = function () {  // random angle of where ball will be thrown
+        this.reset = random(22.5,167);  
+        this.velocity = new PVector(
+            this.speed * cos(this.reset), // calculate the x of velocity using cos
+            -this.speed * sin(this.reset) // calculate the y of velocity using sin
+        );
+    };
+    this.resetVelocity();
+
+    this.draw = function () {
+        fill(255, 255, 255);
+        noStroke();
+        ellipse(this.position.x, this.position.y, this.radius * 2, this.radius * 2);
+    }; // ball drawn using properties of ball 
+
+    this.collideWithPaddle = function (x, y, paddleWidth, paddleHeight) {
+        if (
+            this.position.x + this.radius > x - paddleWidth / 2 &&
+            this.position.x - this.radius < x + paddleWidth / 2 &&
+            this.position.y + this.radius > y - paddleHeight / 2 &&
+            this.position.y - this.radius < y + paddleHeight / 2
+        ) {
+            this.position.y = y - paddleHeight / 2 - this.radius;
+            this.velocity.y *= -1;
+        }
+    };   // check position of ball and (plus or minus) radius with relation to the paddle
+
+    this.collideWithBricks = function () {
+        for (var i = 0; i < bricks.length; i++) {
+            if (
+                this.position.x + this.radius > bricks[i].x &&
+                this.position.x - this.radius < bricks[i].x + BRICK_WIDTH &&
+                this.position.y + this.radius > bricks[i].y &&
+                this.position.y - this.radius < bricks[i].y + BRICK_HEIGHT
+            ) {
+                bricks.splice(i, 1);
+                this.velocity.y *= -1;
+            }
+        }
+    };  // check position of ball and (plus or minus) radius with relation to the bricks 
+
+    this.update = function() {
+          if (this.position.y > 350) { // if ball position is under 350 pixles (past the paddle, ball resets positions)
+            lives = lives -1;
+            this.position = new PVector(width/2, height/2);
+            gameStarted = false;
+            this.resetVelocity();
+        }
+        
+       
+        // Handle wall collisions
+        if (this.position.y - 50< this.radius) {
+            // Reverse the y of the velocity to bounce off the top and bottom walls
+            this.velocity.y *= -1;
+        }
+
+        if (this.position.x > width - this.radius || this.position.x < this.radius) {
+            // Reverse the x of the velocity to bounce off the left and right walls
+            this.velocity.x *= -1;
+        }
+
+        // Handle paddle collisions
+        ball.collideWithPaddle(player1X, height - PADDLE_HEIGHT / 2, PADDLE_WIDTH, PADDLE_HEIGHT);
+
+        // Handle brick collisions
+        this.collideWithBricks();
+
+        this.position.add(this.velocity);
+    };
+};
+
+// Initialize bricks
+for (var row = 0; row < BRICK_ROWS; row++) {
+    for (var col = 0; col < BRICK_COLUMNS; col++) {
+        bricks.push({
+            x: col * BRICK_WIDTH,
+            y: row * BRICK_HEIGHT+50,
+        });
+    }
+}
+
+ball = new Ball(new PVector(width / 2, height / 2));
+
+// Move the player left
+var movePlayerLeft = function () {
+    player1X -= PLAYER_MOVE_SPEED;
+};
+
+// Move the player right
+var movePlayerRight = function () {
+    player1X += PLAYER_MOVE_SPEED;
+};
+
+var drawPlayers = function () {
+    // Constrain the player using the walls
+    player1X = constrain(player1X, PADDLE_WIDTH / 2, width - PADDLE_WIDTH / 2);
+
+    rectMode(CENTER);
+    fill(255, 255, 255);
+    rect(player1X, height - PADDLE_HEIGHT / 2, PADDLE_WIDTH, PADDLE_HEIGHT);
+    fill(0, 0, 0);
+    rect(100,400,600,50);  // black box to cover undesired part of paddle 
+};
+
+var drawBricks = function () {
+    for (var i = 0; i < bricks.length; i++) { // for loop to draw each brick using index i 
+        stroke(255, 255, 255);
+        fill(138, 69, 138);
+        rect(bricks[i].x, bricks[i].y, BRICK_WIDTH, BRICK_HEIGHT);
+    }
+};
+
+var gameOverScreen = function() {  // game over screen when lives hit 0 
+    currentScene = 4;
+    background(255, 0, 0);
+    textSize(50);
+    fill(255, 255, 255);
+    text("Game Over", 87, 134);
+    textSize(35);
+    text("Better luck next time!", 50,200);
+    textSize(20);
+    text("Press Restart ↓",25,360);
+};
+
+
+draw = function () {   // draw funciton to call and execute all funcitons 
+    
+    // Control Player 1
+    if (keyIsPressed) {
+        if (keyCode === LEFT) {
+            movePlayerLeft();
+        } else if (keyCode === RIGHT) {
+            movePlayerRight();
+        }
+    }
+
+    // Draw the environment
+    background(0, 0, 0);
+    drawPlayers();
+    drawBricks();
+    fill(163, 163, 163);
+    rect(0,0,800,80);
+    
+    
+    // Draw the ball
+    ball.draw();
+
+    if (!gameStarted) {
+        t++;
+        if (t >= PAUSE_TIME) {
+            t = 0;
+            gameStarted = true;
+        }
+        return;
+    }
+    ball.update();
+    fill(0, 0, 0);
+    rect(100,400,600,50);
+    
+
+    // Display the number of lives
+    fill(0, 0, 0);
+    textSize(30);
+    text("Lives: " + lives, 20, 10);
+
+    // Check for game over
+    if (lives <= 0) { 
+        gameOverScreen(); // Change to game over screen
+        }
+};
+  
+};
