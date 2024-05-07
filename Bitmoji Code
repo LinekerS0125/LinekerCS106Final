@@ -1,0 +1,75 @@
+var Head = function (X, Y, BitmojiHeight){
+    
+    noStroke();
+    fill(255,224,189);      // SKIN COLOR
+    ellipse(X+(BitmojiHeight/150*98),Y+(BitmojiHeight/150*101),(BitmojiHeight/150*83),(BitmojiHeight/150*100));   // head 
+    
+    fill(255,224,189); 
+    rect(X+(BitmojiHeight/150*84),Y+(BitmojiHeight/150*144),(BitmojiHeight/150*35),(BitmojiHeight/150*40));     // neck 
+    };
+var AHair = function(X, Y, BitmojiHeight) {
+    
+    
+   fill(56, 40, 16);   // hair color 
+    quad(X+(BitmojiHeight/150*57),Y+(BitmojiHeight/150*105),X+(BitmojiHeight/150*63),Y+(BitmojiHeight/150*71),X+(BitmojiHeight/150*88),Y+(BitmojiHeight/150*51),X+(BitmojiHeight/150*68),Y+(BitmojiHeight/150*95));  //left hair 
+    quad(X+(BitmojiHeight/150*142),Y+(BitmojiHeight/150*106),X+(BitmojiHeight/150*132),Y+(BitmojiHeight/150*65),X+(BitmojiHeight/150*108),Y+(BitmojiHeight/150*51),X+(BitmojiHeight/150*132),Y+(BitmojiHeight/150*99));   // right hair 
+    ellipse(X+(BitmojiHeight/150*98),Y+(BitmojiHeight/150*69),(BitmojiHeight/150*65),(BitmojiHeight/150*15));   //top hair 
+    ellipse(X+(BitmojiHeight/150*98),Y+(BitmojiHeight/150*58),(BitmojiHeight/150*44),(BitmojiHeight/150*26));  //my awesome man bun 
+    
+    fill(56, 40, 16);
+    stroke(0, 0, 0);
+    arc(X+(BitmojiHeight/150*101),Y+(BitmojiHeight/150*67), (BitmojiHeight/150*65), (BitmojiHeight/150*-15), 41,184);    // black hair line mamn bun
+    
+    fill(56, 40, 16); 
+    quad(X+(BitmojiHeight/150*141),Y+(BitmojiHeight/150*104),X+(BitmojiHeight/150*130),Y+(BitmojiHeight/150*134),X+(BitmojiHeight/150*105),Y+(BitmojiHeight/150*150),X+(BitmojiHeight/150*113),Y+(BitmojiHeight/150*137));  // left beard 
+    quad(X+(BitmojiHeight/150*57),Y+(BitmojiHeight/150*104),X+(BitmojiHeight/150*68),Y+(BitmojiHeight/150*134),X+(BitmojiHeight/150*93),Y+(BitmojiHeight/150*150),X+(BitmojiHeight/150*84),Y+(BitmojiHeight/150*137));  // left beard 
+    triangle(X+(BitmojiHeight/150*92),Y+(BitmojiHeight/150*149),X+(BitmojiHeight/150*106),Y+(BitmojiHeight/150*149),X+(BitmojiHeight/150*99),Y+(BitmojiHeight/150*142));         // chin thing 
+};
+var face = function(X, Y, BitmojiHeight) {
+    
+    noStroke();
+    fill(255, 255, 255);  //WHITE
+    ellipse(X+(BitmojiHeight/150*84),Y+(BitmojiHeight/150*95),(BitmojiHeight/150*20),(BitmojiHeight/150*11));    // left eyeball
+    ellipse(X+(BitmojiHeight/150*116),Y+(BitmojiHeight/150*95),(BitmojiHeight/150*19.5), (BitmojiHeight/150*11));  // right eyeball
+
+    fill(0, 0, 0);
+    ellipse(X+(BitmojiHeight/150*86),Y+(BitmojiHeight/150*95),(BitmojiHeight/150*6),(BitmojiHeight/150*6));  //left pupil
+    ellipse(X+(BitmojiHeight/150*118),Y+(BitmojiHeight/150*95),(BitmojiHeight/150*6),(BitmojiHeight/150*6));  //right pupil
+
+    stroke(0, 0, 0);
+    fill(255,224,189); 
+    bezier(X+(BitmojiHeight/150*100),Y+(BitmojiHeight/150*96),X+(BitmojiHeight/150*129),Y+(BitmojiHeight/150*128),X+(BitmojiHeight/150*89),Y+(BitmojiHeight/150*120),X+(BitmojiHeight/150*97),Y+(BitmojiHeight/150*116));  // NOSE
+
+    fill(222, 84, 84); //mouth color
+    noStroke();
+    arc(X+(BitmojiHeight/150*99),Y+(BitmojiHeight/150*126),(BitmojiHeight/150*28), (BitmojiHeight/150*24),0,180);  // MOUTH
+    fill(255, 255, 255);
+    rect(X+(BitmojiHeight/150*113),Y+(BitmojiHeight/150*126), (BitmojiHeight/150*-28), (BitmojiHeight/150*3));     // teeth
+};
+var shirt = function(X, Y, BitmojiHeight){
+
+    fill(112, 37, 37);
+    quad(X+(BitmojiHeight/150*150),Y+(BitmojiHeight/150*156),X+(BitmojiHeight/150*48),Y+(BitmojiHeight/150*155),X+(BitmojiHeight/150*27),Y+(BitmojiHeight/150*190),X+(BitmojiHeight/150*168),Y+(BitmojiHeight/150*190)); // shirt
+
+    stroke(0, 0, 0);
+    line(X+(BitmojiHeight/150*50),Y+(BitmojiHeight/150*188),X+(BitmojiHeight/150*50),Y+(BitmojiHeight/150*172)); // left arm 
+    line(X+(BitmojiHeight/150*148),Y+(BitmojiHeight/150*188),X+(BitmojiHeight/150*148),Y+(BitmojiHeight/150*172));   // right arm
+
+    stroke(158, 158, 158);
+    strokeWeight(3);
+    line(X+(BitmojiHeight/150*74),Y+(BitmojiHeight/150*163),X+(BitmojiHeight/150*74),Y+(BitmojiHeight/150*185)); // up L
+    line(X+(BitmojiHeight/150*89),Y+(BitmojiHeight/150*185),X+(BitmojiHeight/150*74),Y+(BitmojiHeight/150*185)); // flat L
+    noFill();
+    bezier(X+(BitmojiHeight/150*119),Y+(BitmojiHeight/150*163),X+(BitmojiHeight/150*84),Y+(BitmojiHeight/150*189),X+(BitmojiHeight/150*152),Y+(BitmojiHeight/150*158),X+(BitmojiHeight/150*113),Y+(BitmojiHeight/150*185));  // S
+
+    noStroke();
+    fill(255,224,189); 
+    triangle(X+(BitmojiHeight/150*116),Y+(BitmojiHeight/150*155),X+(BitmojiHeight/150*85),Y+(BitmojiHeight/150*155),X+(BitmojiHeight/150*100),Y+(BitmojiHeight/150*167)); // V neck cut
+};
+var drawBitmoji = function (X, Y, BitmojiHeight){
+    
+Head(X, Y, BitmojiHeight);
+AHair(X, Y, BitmojiHeight);
+face(X, Y, BitmojiHeight);
+shirt(X, Y, BitmojiHeight);
+}; // end of Lineker Bitmoji
