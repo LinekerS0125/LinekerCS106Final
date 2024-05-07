@@ -1,0 +1,12 @@
+var currentScene = 1; // sets variable currentScene to 1 so splashScreen could show(in draw function)
+var splashScreen = function(){
+    currentScene = 1; 
+    background(120, 74, 74);
+    textSize(40);
+    fill(255, 255, 255);
+    text("BRICK BREAKER", 33,90);
+    btn1.draw();  // play button
+    btn2.draw();  // how to play button
+
+    drawBitmoji(245, 231, 130); // displays Lineker's Bitmoji
+}; 
