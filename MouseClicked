@@ -1,0 +1,5 @@
+mouseClicked = function() {
+    btn1.handleMouseClick();
+    btn2.handleMouseClick();
+    btn3.handleMouseClick();
+}; // if mouse clicks either button, execute its certain action
