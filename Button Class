@@ -1,0 +1,56 @@
+var Button = function(config) {
+    this.x = config.x;
+    this.y = config.y;
+    this.width = config.width || 180;
+    this.height = config.height || 50;
+    this.label = config.label || "Click";
+    this.onClick = config.onClick || function() {};
+};// lines 322 - 375 uses khan button class for each button
+Button.prototype.draw = function() {
+    fill(0, 234, 255);
+    rect(this.x, this.y, this.width, this.height, 5);
+    fill(0, 0, 0);
+    textSize(19);
+    textAlign(LEFT, TOP);
+    text(this.label, this.x+10, this.y+this.height/4);
+};        
+Button.prototype.isMouseInside = function() {
+    return mouseX > this.x &&
+           mouseX < (this.x + this.width) &&
+           mouseY > this.y &&
+           mouseY < (this.y + this.height);
+};
+Button.prototype.handleMouseClick = function() {
+    if (this.isMouseInside()) {
+        this.onClick();
+    }
+};
+
+var btn1 = new Button({
+    x: 26,
+    y: 173,
+    label: "Play Brick Breaker!",
+    onClick: function() {
+        currentScene = 2;
+    }
+});  // "Play Brick Breaker" button
+
+var btn2 = new Button({
+    x: 228,
+    y: 173,
+    width: 120,
+    label: "How to play",
+    onClick: function() {
+        currentScene = 3;
+    }
+}); // "How to play" button
+
+var btn3 = new Button({
+    x: 20,
+    y: 337,
+    width: 120,
+    label: "Back",
+    onClick: function() {
+        currentScene = 1;
+    }
+}); // Back" button (when in how to play screen)
